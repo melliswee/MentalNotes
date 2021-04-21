@@ -1,7 +1,7 @@
 import { StatusBar } from 'expo-status-bar';
 import React, { useState } from 'react';
-import { Button, StyleSheet, Text, View } from 'react-native';
-import Greeting from './components/Greeting';
+import { StyleSheet, Text, View } from 'react-native';
+import Greeting from './Greeting';
 
 export default function App() {
   return (
