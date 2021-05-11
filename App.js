@@ -10,47 +10,47 @@ import { Ionicons } from '@expo/vector-icons';
 
 export default function App() {
   const screenOptions = ({ route }) => ({
-    tabBarIcon: ({ focused, color, size }) => {
-      let iconName;
-  
-      if (route.name === 'FrontPage') {
-        iconName = 'md-home';
-      } else if (route.name === 'Greeting') {
-        iconName = 'hand-right-outline';
-      } else if (route.name === 'NewNote') {
-        iconName = 'create';
-      }
-  
-      return <Ionicons name={iconName} size={size} color={color} />;
-    }
+        tabBarIcon: ({ focused, color, size }) => {
+        let iconName;
+    
+        if (route.name === 'FrontPage') {
+            iconName = 'md-home';
+        } else if (route.name === 'Greeting') {
+            iconName = 'hand-right-outline';
+        } else if (route.name === 'NewNote') {
+            iconName = 'create';
+        }
+    
+        return <Ionicons name={iconName} size={size} color={color} />;
+        }
   });
 
   const Tab = createBottomTabNavigator();
 
   return (
     <NavigationContainer>
-      <Tab.Navigator screenOptions = { screenOptions }>
-        <Tab.Screen name='FrontPage' component={ FrontPage } options={{ title: 'Home' }}/>
-        <Tab.Screen name='Greeting' component={ Greeting } options={{ title: 'Hello' }}/>
-        <Tab.Screen name='NewNote' component={ NewNote } options={{ title: 'Add' }}/>
-      </Tab.Navigator>
+        <Tab.Navigator screenOptions = { screenOptions }>
+            <Tab.Screen name='FrontPage' component={ FrontPage } options={{ title: 'Home' }}/>
+            <Tab.Screen name='Greeting' component={ Greeting } options={{ title: 'Hello' }}/>
+            <Tab.Screen name='NewNote' component={ NewNote } options={{ title: 'Add' }}/>
+        </Tab.Navigator>
     </NavigationContainer>
   );
 }
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    flexDirection: 'column',
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  greeting: {
-    flex: 2,
-    flexDirection: 'column',
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  }
+    container: {
+        flex: 1,
+        flexDirection: 'column',
+        backgroundColor: '#fff',
+        alignItems: 'center',
+        justifyContent: 'center',
+    },
+    greeting: {
+        flex: 2,
+        flexDirection: 'column',
+        backgroundColor: '#fff',
+        alignItems: 'center',
+        justifyContent: 'center',
+    }
 });

@@ -3,7 +3,7 @@ import React from 'react';
 import { StyleSheet, Text, View } from 'react-native';
 import * as SplashScreen from 'expo-splash-screen';
 
-export default function Greeting(props) {
+export default function LoadingScreen(props) {
   return (
     <View style={styles.container}>
       <Text>Well Hiii { props.name } !</Text>

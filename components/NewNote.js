@@ -14,94 +14,109 @@ export default function NewNote({ navigation }) {
     const [sadValue, setSadValue] = useState(0);
     const [happyValue, setHappyValue] = useState(0);
     const [anxiousValue, setAnxiousValue] = useState(0);
-    const [otherEmotions, setOtherEmotions] = useState({'shame': false, 'fear': false, 'trust': false, 'disgust': false, 'anger': false, 'surprise': false});
+    const [otherEmotions, setOtherEmotions] = useState(
+        {
+        'shame': false, 
+        'fear': false, 
+        'trust': false, 
+        'disgust': false, 
+        'anger': false, 
+        'surprise': false
+        });
     const [basicIsChecked, setBasicChecked] = useState(true);
     const [otherIsChecked, setOtherChecked] = useState(true);
 
     const saveNote = async () => {
-      let key = getKey(); //database entry/node key for this note
+        let key = getKey(); //database entry/node key for this note
       
-      try {
-        await Firebase.database().ref('notes/' + key).set(
-          {
-            key: key,
-            title: title,
-            body: body,
-            dateString: (new Date()).toString(), //db does not accept date as is but as String
-            timestamp: Date.now(),
-            mood: {
-              sadness: sadValue,
-              happiness: happyValue,
-              anxiety: anxiousValue,
-            },
-            otherEmotions: {
-                shame: otherEmotions.shame,
-                fear: otherEmotions.fear,
-                trust: otherEmotions.trust,
-                disgust: otherEmotions.disgust,
-                anger: otherEmotions.anger,
-                surprise: otherEmotions.surprise
+        try {
+            await Firebase.database().ref('notes/' + key).set(
+            {
+                key: key,
+                title: title,
+                body: body,
+                dateString: formatDate(), //db does not accept date as is but as String
+                timestamp: Date.now(),
+                mood: {
+                sadness: sadValue,
+                happiness: happyValue,
+                anxiety: anxiousValue,
+                },
+                otherEmotions: {
+                    shame: otherEmotions.shame,
+                    fear: otherEmotions.fear,
+                    trust: otherEmotions.trust,
+                    disgust: otherEmotions.disgust,
+                    anger: otherEmotions.anger,
+                    surprise: otherEmotions.surprise
+                }
             }
-          }
         )
         .then(Alert.alert('Your note was saved.'));
         clearFields();
         navigation.navigate('FrontPage');
-      } catch (error) {
-        setMsg('Error in saving note ' + error);
-        console.log(msg);
-      }
+        } catch (error) {
+            setMsg('Error in saving note ' + error);
+            console.log(msg);
+        }
+    }
+
+    const formatDate = () => {
+        let date = new Date();
+        let hours = date.getHours();
+        let minutes = date.getMinutes();
+        var strTime = hours + ':' + minutes;
+
+        return date.getDate() + "." + (date.getMonth() + 1) + "." + date.getFullYear() + " " + strTime;  
     }
 
     const clearFields = () => {
-      setMsg('');
-      setTitle('');
-      setBody('');
-      setSadValue(0);
-      setHappyValue(0);
-      setAnxiousValue(0);
-      setOtherEmotions({'shame': false, 'fear': false, 'trust': false, 'disgust': false, 'anger': false, 'surprise': false});
-      setBasicChecked(true);
-      setOtherChecked(true);
+        setMsg('');
+        setTitle('');
+        setBody('');
+        setSadValue(0);
+        setHappyValue(0);
+        setAnxiousValue(0);
+        setOtherEmotions({'shame': false, 'fear': false, 'trust': false, 'disgust': false, 'anger': false, 'surprise': false});
+        setBasicChecked(true);
+        setOtherChecked(true);
     }
 
     const getKey = () => {
-      return Firebase.database().ref('notes/').push().getKey();
+        return Firebase.database().ref('notes/').push().getKey();
     }
 
     // describes slider number with words, takes emotion word (like 'sad') and slider value
     const interpret = (emotion, value) => {
-      const adjectives = ['neutral', 'slightly', 'somewhat', 'very', 'extremely'];
-      if (value === 'undocumented') {
-        return 'Do not document my emotions.'
-      }
-      if (value === 0) {
-        return 'neutral';
-      } else {
-        return adjectives[value] + ' ' + emotion;
-      }
+        const adjectives = ['neutral', 'slightly', 'somewhat', 'very', 'extremely'];
+        if (value === 'undocumented') {
+            return 'undocumented'
+        }
+        if (value === 0) {
+            return 'neutral';
+        } else {
+            return adjectives[value] + ' ' + emotion;
+        }
     }
 
     // if user does not want to document their emotions in this note, set emotions to 'undocumented'
     const documentEmotions = () => {
-      if (!basicIsChecked) {
-        setSadValue('undocumented'); // db does not accept undefined
-        setAnxiousValue('undocumented');
-        setHappyValue('undocumented');
-      } else {
-        setSadValue(0);
-        setAnxiousValue(0);
-        setHappyValue(0);
-      }
+        if (!basicIsChecked) {
+            setSadValue('undocumented'); // db does not accept undefined
+            setAnxiousValue('undocumented');
+            setHappyValue('undocumented');
+        } else {
+            setSadValue(0);
+            setAnxiousValue(0);
+            setHappyValue(0);
+        }
     }
 
     const documentOtherEmotions = () => {
         if (!otherIsChecked) {
             setOtherEmotions({'shame': 'undocumented', 'fear': 'undocumented', 'trust': 'undocumented', 'disgust': 'undocumented', 'anger': 'undocumented', 'surprise': 'undocumented'});
-            console.log('undocumented ' + otherEmotions.anger);
         } else {
             setOtherEmotions({'shame': false, 'fear': false, 'trust': false, 'disgust': false, 'anger': false, 'surprise': false});
-            console.log('documented ' + otherEmotions.anger);
         }
     }
 
@@ -118,7 +133,7 @@ export default function NewNote({ navigation }) {
 
     // if basic emotion's checkbox' state is changed, change the emotion states
     useEffect(() => {
-      documentEmotions();
+        documentEmotions();
     }, [basicIsChecked]);
 
     useEffect(() => {
@@ -133,7 +148,7 @@ export default function NewNote({ navigation }) {
             <Text style={styles.heading1}>Create a new note</Text>
         </View>
        <View style={styles.headingContainer}>
-            <Text style={styles.heading2}>{new Date().toDateString()}</Text>
+            <Text style={styles.heading2}>{formatDate()}</Text>
         </View>
         
         <View style={styles.inputContainer}>
@@ -302,86 +317,86 @@ export default function NewNote({ navigation }) {
 }
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-    paddingTop: StatusBar.currentHeight,
-  },
-  inputContainer: {
-    flex: 2,
-    width: '100%'
-  },
-  input: {
-    flex: 1,
-    fontSize: 15,
-    width: 300,
-    alignItems: 'center',
-    justifyContent: 'center',
-    borderColor: 'gray',
-    borderWidth: 1,
-    paddingLeft: 10,
-    margin: 10,
-  },
-  heading1: {
-    fontSize: 30,
-    fontWeight: 'bold',
-    marginBottom: 5
-  },
-  heading2: {
-    fontSize: 20,
-    fontWeight: 'bold',
-    marginBottom: 5
-  },
-  headingContainer: {
-    flex: 0.5,
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  buttonContainer: {
-    flex: 0.5,
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'space-evenly',
-    margin: '5%'
-  },
-  sliders: {
-    flex: 2,
-    width: '100%'
-  },
-  slider: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'flex-start',
-    justifyContent: 'flex-start',
-  },
-  headingPicker: {
-    flex: 0.5,
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'center',
-    marginBottom: '5%'
-  },
-  otherPicker: {
-    flex: 0.5,
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'flex-start',
-    marginBottom: '5%',
-    marginHorizontal: '10%'
-  },
-  pickerText: {
-    fontSize: 16,
-  },
-  text: {
-    fontSize: 12,
-  },
-  safeareaView: {
-    marginHorizontal: 20
-  },
-  pickers: {
-    flex: 2,
-    flexDirection: 'row'
-  }
+    container: {
+        flex: 1,
+        backgroundColor: '#fff',
+        alignItems: 'center',
+        justifyContent: 'center',
+        paddingTop: StatusBar.currentHeight,
+    },
+    inputContainer: {
+        flex: 2,
+        width: '100%'
+    },
+    input: {
+        flex: 1,
+        fontSize: 15,
+        width: 300,
+        alignItems: 'center',
+        justifyContent: 'center',
+        borderColor: 'gray',
+        borderWidth: 1,
+        paddingLeft: 10,
+        margin: 10,
+    },
+    heading1: {
+        fontSize: 30,
+        fontWeight: 'bold',
+        marginBottom: 5
+    },
+    heading2: {
+        fontSize: 20,
+        fontWeight: 'bold',
+        marginBottom: 5
+    },
+    headingContainer: {
+        flex: 0.5,
+        alignItems: 'center',
+        justifyContent: 'center',
+    },
+    buttonContainer: {
+        flex: 0.5,
+        flexDirection: 'row',
+        alignItems: 'center',
+        justifyContent: 'space-evenly',
+        margin: '5%'
+    },
+        sliders: {
+        flex: 2,
+        width: '100%'
+    },
+    slider: {
+        flex: 1,
+        backgroundColor: '#fff',
+        alignItems: 'flex-start',
+        justifyContent: 'flex-start',
+    },
+    headingPicker: {
+        flex: 0.5,
+        flexDirection: 'row',
+        alignItems: 'center',
+        justifyContent: 'center',
+        marginBottom: '5%'
+    },
+    otherPicker: {
+        flex: 0.5,
+        flexDirection: 'row',
+        alignItems: 'center',
+        justifyContent: 'flex-start',
+        marginBottom: '5%',
+        marginHorizontal: '10%'
+    },
+    pickerText: {
+        fontSize: 16,
+    },
+    text: {
+        fontSize: 12,
+    },
+    safeareaView: {
+        marginHorizontal: 20
+     },
+    pickers: {
+        flex: 2,
+        flexDirection: 'row'
+    }
 });
