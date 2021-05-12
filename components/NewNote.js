@@ -28,6 +28,7 @@ export default function NewNote({ navigation }) {
 
     const saveNote = async () => {
         let key = getKey(); //database entry/node key for this note
+        let date = new Date();
       
         try {
             await Firebase.database().ref('notes/' + key).set(
@@ -35,7 +36,12 @@ export default function NewNote({ navigation }) {
                 key: key,
                 title: title,
                 body: body,
-                dateString: formatDate(), //db does not accept date as is but as String
+                dateString: formatDate(), //db does not accept date as is but as a String
+                dayOfTheWeek: date.getDay(),
+                day: date.getDate(),
+                month: date.getMonth() + 1,
+                year: date.getFullYear(),
+                time: date.toTimeString(),
                 timestamp: Date.now(),
                 mood: {
                 sadness: sadValue,
@@ -65,9 +71,7 @@ export default function NewNote({ navigation }) {
         let date = new Date();
         let hours = date.getHours();
         let minutes = date.getMinutes();
-        var strTime = hours + ':' + minutes;
-
-        return date.getDate() + "." + (date.getMonth() + 1) + "." + date.getFullYear() + " " + strTime;  
+        return date.getDate() + "." + (date.getMonth() + 1) + "." + date.getFullYear();  
     }
 
     const clearFields = () => {

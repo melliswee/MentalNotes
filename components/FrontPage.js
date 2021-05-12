@@ -1,13 +1,12 @@
 import React, { useState, useEffect } from 'react';
-import { StyleSheet, Text, View, FlatList, TouchableOpacity,StatusBar} from 'react-native';
+import { StyleSheet, Text, View, FlatList, TouchableOpacity, StatusBar, SafeAreaView, ScrollView} from 'react-native';
 import Firebase from '../config/Firebase';
-import { ScrollView } from 'react-native-gesture-handler';
-import { SafeAreaView } from 'react-native-safe-area-context';
 
 export default function FrontPage({navigation}) {
 
     const [notes, setNotes] = useState([]);
     const [ready, setReady] = useState(false);
+    const monthlyNotes = ['January', 'February', 'March', 'April','May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
 
     
     useEffect(() => {
@@ -42,32 +41,52 @@ export default function FrontPage({navigation}) {
         return date;
     }
 
+    const createMonths = () => {
+        let i;
+        //let j;
+        //const yearsFound = checkYears();
+        //console.log('years found ' + yearsFound.length)
+        //for (j=0; j < yearsFound.length; j++) {
+            //console.log('year is ' + yearsFound[j]);
+            for (i=0; i < monthlyNotes.length; i++) {
+                //console.log('month is ' + monthlyNotes[i])
+                return monthlyNotes.map((month) => {
+                    return(
+                        <View key= {month} style={styles.listcontainer}>
+                            <View style={styles.row}>
+                                <Text style={{ fontSize: 24, fontWeight: 'bold' }}>{month}</Text>
+                                <TouchableOpacity onPress={() => navigation.navigate('Greeting', i)}>
+                                    <View style={styles.btn}>
+                                        <Text style={styles.btnText}> Notes </Text>
+                                    </View>
+                                </TouchableOpacity>
+                            </View>
+                        </View>
+                    )
+                })
+            }
+        //}
+    }
+
+    // gets notes and check how many unique years are found among notes, not used rigth now
+    const checkYears = () => {
+        if (ready) {
+            const years = notes.map((note) => note.year)
+            const uniqueYears = Array.from(new Set(years));
+            return uniqueYears; 
+        }
+    }
+
     return (
         <View style={styles.container}>
+            <SafeAreaView style={styles.container}>
+                <ScrollView style= {styles.safeareaView}>
                 <View style={styles.title}>
                     <Text style={styles.headerFont}>Notes</Text>
                 </View>
-                <View style={styles.list}>
-                    {ready &&
-                    <FlatList
-                        data={notes}
-                        keyExtractor={(item) => item.key}
-                        renderItem={({ item }) =>
-                            <View style={styles.listcontainer}>
-                                <Text style={{ fontSize: 24, fontWeight: 'bold' }}>{item.title}</Text>
-                                <View style={styles.mood}>
-                                    <Text>{formatDate(item.dateString)}</Text>
-                                    <TouchableOpacity onPress={() => navigation.navigate('Greeting', item)}>
-                                        <View style={styles.btn}>
-                                            <Text style={styles.btnText}>To Hello</Text>
-                                        </View>
-                                    </TouchableOpacity>
-                                </View>
-                            </View>
-                        }
-                    />
-                }
-                </View>
+                {createMonths()}
+                </ScrollView>
+            </SafeAreaView>
         </View>
     );
 }
@@ -101,7 +120,7 @@ const styles = StyleSheet.create({
     },
     btn: {
         backgroundColor: '#4630EB',
-        borderRadius: 5
+        borderRadius: 100
     },
     btnText: {
         color: 'white',
@@ -117,7 +136,7 @@ const styles = StyleSheet.create({
         fontSize: 25,
         fontWeight: 'bold'
     },
-    mood: {
+    row: {
         flexDirection: 'row',
         alignItems: 'center',
         justifyContent: 'space-between'
