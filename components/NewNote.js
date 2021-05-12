@@ -1,10 +1,11 @@
 import React, { useState, useEffect } from 'react';
-import { Alert, Button, StyleSheet, Text, View, TextInput, StatusBar } from 'react-native';
+import { Alert, Button, StyleSheet, Text, View, TextInput, StatusBar, TouchableOpacity } from 'react-native';
 import Slider from '@react-native-community/slider';
 import Firebase from '../config/Firebase';
 import Checkbox from 'expo-checkbox';
 import { ScrollView } from 'react-native-gesture-handler';
 import { SafeAreaView } from 'react-native-safe-area-context';
+import { AntDesign } from '@expo/vector-icons';
 
 export default function NewNote({ navigation }) {
 
@@ -28,7 +29,8 @@ export default function NewNote({ navigation }) {
 
     const saveNote = async () => {
         let key = getKey(); //database entry/node key for this note
-      
+        let date = new Date();
+
         try {
             await Firebase.database().ref('notes/' + key).set(
             {
@@ -36,6 +38,11 @@ export default function NewNote({ navigation }) {
                 title: title,
                 body: body,
                 dateString: formatDate(), //db does not accept date as is but as String
+                dayOfTheWeek: date.getDay(),
+                day: date.getDate(),
+                month: date.getMonth() + 1,
+                year: date.getFullYear(),
+                time: date.toTimeString(),
                 timestamp: Date.now(),
                 mood: {
                 sadness: sadValue,
@@ -63,11 +70,7 @@ export default function NewNote({ navigation }) {
 
     const formatDate = () => {
         let date = new Date();
-        let hours = date.getHours();
-        let minutes = date.getMinutes();
-        var strTime = hours + ':' + minutes;
-
-        return date.getDate() + "." + (date.getMonth() + 1) + "." + date.getFullYear() + " " + strTime;  
+        return date.getDate() + "." + (date.getMonth() + 1) + "." + date.getFullYear();  
     }
 
     const clearFields = () => {
@@ -172,7 +175,7 @@ export default function NewNote({ navigation }) {
             <Checkbox
               value={basicIsChecked}
               onValueChange={setBasicChecked}
-              color={basicIsChecked ? '#4630EB' : undefined}
+              color={basicIsChecked ? '#6689bf' : undefined}
               />
         </View>
         <View style= {styles.sliders}>
@@ -229,7 +232,7 @@ export default function NewNote({ navigation }) {
             <Checkbox
               value={otherIsChecked}
               onValueChange={setOtherChecked}
-              color={otherIsChecked ? '#4630EB' : undefined}
+              color={otherIsChecked ? '#6689bf' : undefined}
               />
         </View>
         <View style={styles.pickers}>
@@ -238,7 +241,7 @@ export default function NewNote({ navigation }) {
                 name='anger'
                 value={otherEmotions.anger}
                 onValueChange={(e) => handleOtherEmotion(e, 'anger')}
-                color={otherIsChecked ? '#f70505' : undefined}
+                color={otherIsChecked ? '#b2c4df' : undefined}
                 disabled={!otherIsChecked}
                 />
                 <Text style={styles.pickerText}>Anger</Text>
@@ -248,7 +251,7 @@ export default function NewNote({ navigation }) {
                 name='shame'
                 value={otherEmotions.shame}
                 onValueChange={(e) => handleOtherEmotion(e, 'shame')}
-                color={otherIsChecked ? '#b30b9f' : undefined}
+                color={otherIsChecked ? '#b2c4df' : undefined}
                 disabled={!otherIsChecked}
                 />
                 <Text style={styles.pickerText}>Shame</Text>
@@ -260,7 +263,7 @@ export default function NewNote({ navigation }) {
                 name='fear'
                 value={otherEmotions.fear}
                 onValueChange={(e) => handleOtherEmotion(e, 'fear')}
-                color={otherIsChecked ? '#0f0f0f' : undefined}
+                color={otherIsChecked ? '#b2c4df' : undefined}
                 disabled={!otherIsChecked}
                 />
                 <Text style={styles.pickerText}>Fear</Text>
@@ -270,7 +273,7 @@ export default function NewNote({ navigation }) {
                 name='trust'
                 value={otherEmotions.trust}
                 onValueChange={(e) => handleOtherEmotion(e, 'trust')}
-                color={otherIsChecked ? '#e39414' : undefined}
+                color={otherIsChecked ? '#b2c4df' : undefined}
                 disabled={!otherIsChecked}
                 />
                 <Text style={styles.pickerText}>Trust</Text>
@@ -282,7 +285,7 @@ export default function NewNote({ navigation }) {
                 name='disgust'
                 value={otherEmotions.disgust}
                 onValueChange={(e) => handleOtherEmotion(e, 'disgust')}
-                color={otherIsChecked ? '#046120' : undefined}
+                color={otherIsChecked ? '#b2c4df' : undefined}
                 disabled={!otherIsChecked}
                 />
                 <Text style={styles.pickerText}>Disgust</Text>
@@ -292,23 +295,23 @@ export default function NewNote({ navigation }) {
                 name='surprise'
                 value={otherEmotions.surprise}
                 onValueChange={(e) => handleOtherEmotion(e, 'surprise')}
-                color={otherIsChecked ? '#faf20a' : undefined}
+                color={otherIsChecked ? '#b2c4df' : undefined}
                 disabled={!otherIsChecked}
                 />
                 <Text style={styles.pickerText}>Surprise</Text>
             </View>
         </View>
         <View style={styles.buttonContainer}>
-            <Button
-                onPress={saveNote}
-                title='Save'
-                color= '#4630EB'
-            />
-            <Button 
-              onPress={handleCancel}
-              title='Cancel'
-              color= '#f70505'
-            />
+            <TouchableOpacity onPress={saveNote}>
+                <View>
+                    <AntDesign name="save" size={50} color="#6689bf" />  
+                </View>
+            </TouchableOpacity>
+            <TouchableOpacity onPress={handleCancel}>
+                <View>
+                    <AntDesign name="closecircleo" size={42} color="#C85D6F" />  
+                </View>
+            </TouchableOpacity>
         </View>
         </ScrollView>
     </SafeAreaView>
