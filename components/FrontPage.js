@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from 'react';
-import { StyleSheet, Text, View, FlatList, TouchableOpacity,} from 'react-native';
+import { StyleSheet, Text, View, FlatList, TouchableOpacity,StatusBar} from 'react-native';
 import Firebase from '../config/Firebase';
-import Greeting from './Greeting';
+import { ScrollView } from 'react-native-gesture-handler';
+import { SafeAreaView } from 'react-native-safe-area-context';
 
 export default function FrontPage({navigation}) {
 
@@ -43,30 +44,30 @@ export default function FrontPage({navigation}) {
 
     return (
         <View style={styles.container}>
-            <View style={styles.title}>
-                <Text style={styles.headerFont}>Notes</Text>
-            </View>
-            <View style={styles.list}>
-                {ready &&
-                <FlatList
-                    data={notes}
-                    keyExtractor={(item) => item.key}
-                    renderItem={({ item }) =>
-                        <View style={styles.listcontainer}>
-                            <Text style={{ fontSize: 24, fontWeight: 'bold' }}>{item.title}</Text>
-                            <View style={styles.mood}>
-                                <Text>{formatDate(item.dateString)}</Text>
-                                <TouchableOpacity onPress={() => navigation.navigate('Greeting', item)}>
-                                    <View style={styles.btn}>
-                                        <Text style={styles.btnText}>To Hello</Text>
-                                    </View>
-                                </TouchableOpacity>
+                <View style={styles.title}>
+                    <Text style={styles.headerFont}>Notes</Text>
+                </View>
+                <View style={styles.list}>
+                    {ready &&
+                    <FlatList
+                        data={notes}
+                        keyExtractor={(item) => item.key}
+                        renderItem={({ item }) =>
+                            <View style={styles.listcontainer}>
+                                <Text style={{ fontSize: 24, fontWeight: 'bold' }}>{item.title}</Text>
+                                <View style={styles.mood}>
+                                    <Text>{formatDate(item.dateString)}</Text>
+                                    <TouchableOpacity onPress={() => navigation.navigate('Greeting', item)}>
+                                        <View style={styles.btn}>
+                                            <Text style={styles.btnText}>To Hello</Text>
+                                        </View>
+                                    </TouchableOpacity>
+                                </View>
                             </View>
-                        </View>
-                    }
-                />
-            }
-            </View>
+                        }
+                    />
+                }
+                </View>
         </View>
     );
 }
@@ -74,10 +75,10 @@ export default function FrontPage({navigation}) {
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        flexDirection: 'column',
         backgroundColor: '#fff',
         alignItems: 'center',
         justifyContent: 'center',
+        paddingTop: StatusBar.currentHeight,
     },
     greeting: {
         flex: 2,
