@@ -1,6 +1,6 @@
 import React from 'react';
 import { StyleSheet } from 'react-native';
-import Greeting from './components/Greeting';
+import Chart from './components/Chart';
 import Note from './components/Note';
 import FrontPage from './components/FrontPage';
 import NewNote from './components/NewNote';
@@ -20,8 +20,8 @@ function BottomNavigator() {
     
         if (route.name === 'FrontPage') {
             iconName = 'md-home';
-        } else if (route.name === 'Greeting') {
-            iconName = 'hand-right-outline';
+        } else if (route.name === 'Chart') {
+            iconName = 'ios-pie-chart';
         } else if (route.name === 'NewNote') {
             iconName = 'create';
         }
@@ -36,7 +36,7 @@ function BottomNavigator() {
     
         <Tab.Navigator screenOptions = { screenOptions }>
             <Tab.Screen name='FrontPage' component={ FrontPage } options={{ title: 'Home' }}/>
-            <Tab.Screen name='Greeting' component={ Greeting } options={{ title: 'Hello' }}/>
+            <Tab.Screen name='Chart' component={ Chart } options={{ title: 'Chart' }}/>
             <Tab.Screen name='NewNote' component={ NewNote } options={{ title: 'Add' }}/>
         </Tab.Navigator>
     
