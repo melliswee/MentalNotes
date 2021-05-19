@@ -1,14 +1,15 @@
-import { StatusBar } from 'expo-status-bar';
-import React, { useState } from 'react';
-import { Button, StyleSheet, Text, View } from 'react-native';
+import React from 'react';
+import { StyleSheet } from 'react-native';
 import Greeting from './components/Greeting';
 import Note from './components/Note';
 import FrontPage from './components/FrontPage';
 import NewNote from './components/NewNote';
+import EditNote from './components/EditNote';
 import { NavigationContainer } from '@react-navigation/native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { createStackNavigator } from '@react-navigation/stack';
 import { Ionicons } from '@expo/vector-icons';
+import LoadingScreen from './components/LoadingScreen';
 
 const Tab = createBottomTabNavigator();
 
@@ -48,8 +49,10 @@ export default function App() {
     return(
         <NavigationContainer>
             <Stack.Navigator>
+                <Stack.Screen options={{ headerShown: false }} name="LoadingScreen" component={LoadingScreen} />
                 <Stack.Screen options={{headerShown: false}} name='BottomNavigator' component={BottomNavigator}/>
                 <Stack.Screen options={{headerShown: false}} name='Note' component={Note}/>
+                <Stack.Screen options={{headerShown: false}} name='EditNote' component={EditNote}/>
             </Stack.Navigator>
         </NavigationContainer>
     );
