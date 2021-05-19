@@ -12,29 +12,29 @@ export default function Note({navigation, route}) {
     const key = note.key;
     const [image, setImage] = useState(null);
     const [imageLoaded, setImageLoaded] = useState(false);
-    let imageRef = Firebase.storage().ref('images/' + key);
+    let imageRef = note.imageUrl;
 
     useEffect(() => {
         getImage();
     }, []);
-
+    
     const getImage = () => {
-        imageRef.getDownloadURL()
+        if (imageRef.length > 0) {
+            imageRef = Firebase.storage().ref('images/' + key);
+            imageRef.getDownloadURL()
             .then((url) => {
                 setImage(url);
                 setImageLoaded(true);
             })
             .catch((e) => console.log('Error retrieving image ' + e));
+        }
     }
 
     // describes mood number with words, takes emotion word (like 'sad') and value
     const interpret = (emotion, value) => {
-        const adjectives = ['neutral', 'slightly', 'somewhat', 'very', 'extremely'];
-        if (value === 'undocumented') {
-            return 'undocumented'
-        }
+        const adjectives = ['undocumented', 'neutral', 'slightly', 'somewhat', 'very', 'extremely'];
         if (value === 0) {
-            return 'neutrally' + ' ' + emotion;
+            return 'undocumented'
         } else {
             return adjectives[value] + ' ' + emotion;
         }

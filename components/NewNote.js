@@ -37,19 +37,22 @@ export default function NewNote({ navigation }) {
     const saveNote = async () => {
         let key = getKey(); //database entry/node key for this note
         let date = new Date();
-        let imagekey = key;
-        let imageDbURL = (Firebase.storage().ref().child("images/" + imagekey)).toString(); //image's cloud storage address
+        let imageDbURL ='';
 
-        let newLocalUri = await compressImage(photoLocalUri);
-
-        uploadImage(newLocalUri, imagekey)
-        .then(() => {
-            console.log('Saved image to the storage');
-        })
-        .catch((error) => {
-            console.log('Failed to upload image: ' + error);
-        });
-        
+        if (image !== null) {
+            let imagekey = key;
+            imageDbURL = (Firebase.storage().ref().child("images/" + imagekey)).toString(); //image's cloud storage address
+    
+            let newLocalUri = await compressImage(photoLocalUri);
+    
+            uploadImage(newLocalUri, imagekey)
+            .then(() => {
+                console.log('Saved image to the storage');
+            })
+            .catch((error) => {
+                console.log('Failed to upload image: ' + error);
+            });
+        }
 
         try {
             await Firebase.database().ref('notes/' + key).set(
