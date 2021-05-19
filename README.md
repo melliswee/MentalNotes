@@ -8,13 +8,13 @@ If you want to give this app a go, you can find it at Expo: https://expo.io/@mel
 </br></br>
 If you want to develop something similar, remember to create .env- file to the app root with your Firebase config information. It should look like this:
 </br></br>
-API_KEY="YOUR_KEY_HERE"
-AUTH_DOMAIN="YOUR_DOMAIN_HERE"
-DATABASE_URL="YOUR_DATABASE_URL_HERE"
-PROJECT_ID="YOUR_ID_HERE"
-STORAGE_BUCKET="YOUR_BUCKET_HERE"
-MESSAGE_SENDER_ID="YOUR_ID_HERE"
-APP_ID="YOUR_APP_ID_HERE"
+API_KEY="YOUR_KEY_HERE"</br>
+AUTH_DOMAIN="YOUR_DOMAIN_HERE"</br>
+DATABASE_URL="YOUR_DATABASE_URL_HERE"</br>
+PROJECT_ID="YOUR_ID_HERE"</br>
+STORAGE_BUCKET="YOUR_BUCKET_HERE"</br>
+MESSAGE_SENDER_ID="YOUR_ID_HERE"</br>
+APP_ID="YOUR_APP_ID_HERE"</br>
 </br></br>
 
 
