@@ -23,15 +23,15 @@ APP_ID="YOUR_APP_ID_HERE"</br>
 ***
 ## Technologies and libraries
 
-* [ReactNative](https://reactnative.dev/)
-* [Expo](https://docs.expo.io/)
-* [Firebase and Storage](https://firebase.google.com)
-* [React Native Dotenv](https://www.npmjs.com/package/react-native-dotenv)
+* [ReactNative](https://reactnative.dev/) 
+* [Expo](https://docs.expo.io/) - Expo framework and platform for React Applications
+* [Firebase and Storage](https://firebase.google.com) - As database and storage for images
+* [React Native Dotenv](https://www.npmjs.com/package/react-native-dotenv) - To hide private information
 * [React Navigation](https://reactnavigation.org/)
-* [React Native Chart Kit](https://github.com/indiespirit/react-native-chart-kit)
-* [React Native Community Slider](https://docs.expo.io/versions/latest/sdk/slider/)
-* [Expo Checkbox](https://docs.expo.io/versions/v41.0.0/sdk/checkbox/)
-* [Expo ImagePicker](https://docs.expo.io/versions/v41.0.0/sdk/imagepicker/)
-* [Expo ImageManipulator](https://docs.expo.io/versions/v41.0.0/sdk/imagemanipulator/)
+* [React Native Chart Kit](https://github.com/indiespirit/react-native-chart-kit) - For simple pie chart summary
+* [React Native Community Slider](https://docs.expo.io/versions/latest/sdk/slider/) - To express mood intensity
+* [Expo Checkbox](https://docs.expo.io/versions/v41.0.0/sdk/checkbox/) - To choose emotions
+* [Expo ImagePicker](https://docs.expo.io/versions/v41.0.0/sdk/imagepicker/) - For taking pictures
+* [Expo ImageManipulator](https://docs.expo.io/versions/v41.0.0/sdk/imagemanipulator/) - For compressing image
 
 ***
